@@ -16,13 +16,13 @@ if "selected_items" not in st.session_state:
     st.session_state.nodes_subset = set()
     if SEQUENCE_FLAG:
         st.session_state.nodes_subset = set(["start"])
-    st.session_state.ifc_model = ifcopenshell.file()
+    # st.session_state.ifc_model = ifcopenshell.file()
 
-    project = run("root.create_entity", st.session_state.ifc_model, ifc_class = "IFcProject", name = "My Project")
-    run("unit.assign_unit", st.session_state.ifc_model)
-    context = run('context.add_context', st.session_state.ifc_model, context_type = "Model")
-    body = run("context.add_context",  st.session_state.ifc_model, context_type="Model",
-        context_identifier="Body", target_view="MODEL_VIEW", parent=context)
+    # project = run("root.create_entity", st.session_state.ifc_model, ifc_class = "IFcProject", name = "My Project")
+    # run("unit.assign_unit", st.session_state.ifc_model)
+    # context = run('context.add_context', st.session_state.ifc_model, context_type = "Model")
+    # body = run("context.add_context",  st.session_state.ifc_model, context_type="Model",
+    # context_identifier="Body", target_view="MODEL_VIEW", parent=context)
 
 contractor_sequence = read_contractor_sequence()
 predecessor_map = {key: value for value, key in contractor_sequence}
@@ -46,8 +46,7 @@ if st.button("Add to List"):
         st.write("selection not in order!")
     elif selection not in construction_graph:
         st.write("selection not in construction graph")
-    else:
-        
+    else:        
         st.session_state.selected_items.extend([selection])
         # Optionally, you can remove duplicates by converting to a set and back to a list
         st.session_state.selected_items = list(set(st.session_state.selected_items))
@@ -59,9 +58,9 @@ if st.button("Add to List"):
                 | nx.ancestors(construction_graph, selection)
                 | st.session_state.nodes_subset
             )
-            if SEQUENCE_FLAG:
-                st.session_state.ifc_model.create_entity("IfcStructuralCurveMember", Name=selection)
-                st.session_state.ifc_model.write("trial.ifc")
+            # if SEQUENCE_FLAG:
+            #     st.session_state.ifc_model.create_entity("IfcStructuralCurveMember", Name=selection)
+            #     st.session_state.ifc_model.write("trial.ifc")
         
         else:   
             st.write("selection not in order!")
