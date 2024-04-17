@@ -9,7 +9,7 @@ import ifcopenshell.geom
 from csv_reader import read_contractor_sequence
 from config import *
 
-model = ifcopenshell.open("dEVA MODEL 1 - Copy.ifc")
+model = ifcopenshell.open("DIM_000690200_ZGF_Redesign Conformed DIM STRUCTURAL_20240315.ifc")
 construction_graph = nx.DiGraph()
 sequence = {}
 member_name_map = {}
@@ -21,6 +21,7 @@ try:
         print(storey.get_info()["Name"])
         sequence[storey.get_info()["Name"]] = {}
 
+        
         for curve_member in storey.ContainsElements[0].RelatedElements:
 
             product_definition = curve_member.Representation
@@ -277,3 +278,4 @@ nx.draw_networkx_edge_labels(construction_graph, pos, edge_labels=edge_labels)
 plt.show()
 
 pickle.dump(construction_graph, open("construction.graph", "wb"))
+pickle.dump(list(sequence.keys()), open("storeys_list.pkl", "wb"))
